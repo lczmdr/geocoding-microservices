@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: geocoding-app
+
+server:
+  servlet:
+    context-path: /geocoding-app
+  port: 9000
+
+geocoding-app:
+  geocoding-service:
+    url: http://geocoding-service:9010/

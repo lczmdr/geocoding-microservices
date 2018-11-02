@@ -1,0 +1,33 @@
+# FROM anapsix/docker-alpine-java:8_jdk_unlimited
+FROM anapsix/alpine-java:8_jdk_unlimited
+# FROM alpine:3.1
+
+ARG APPLICATION_NAME
+ENV APPLICATION_NAME ${APPLICATION_NAME:-geocoding-service}
+
+ARG SERVER_PORT
+ENV SERVER_PORT ${SERVER_PORT:-9010}
+
+ARG LOG_PATH
+ENV LOG_PATH ${LOG_PATH:-/opt/${APPLICATION_NAME}/logs}
+
+ARG SPRING_PROFILES_ACTIVE
+ENV SPRING_PROFILES_ACTIVE ${SPRING_PROFILES_ACTIVE:-localhost}
+
+ARG JVM_MEMORY_MIN
+ENV JVM_MEMORY_MIN ${JVM_MEMORY_MIN:-256m}
+ARG JVM_MEMORY_MAX
+ENV JVM_MEMORY_MAX ${JVM_MEMORY_MAX:-256m}
+
+ARG TIME_ZONE
+ENV TIME_ZONE ${TIME_ZONE:-CST6CDT}
+
+COPY target/${APPLICATION_NAME}-*.jar /home/${APPLICATION_NAME}/${APPLICATION_NAME}.jar
+
+RUN mkdir -p ${LOG_PATH}
+
+RUN chmod 0600 /opt/jdk/jre/lib/management/*
+
+EXPOSE ${SERVER_PORT}
+
+CMD ln -sf /usr/share/zoneinfo/${TIME_ZONE} /etc/localtime && java -Dlogging.path=${LOG_PATH} -Xms${JVM_MEMORY_MIN} -Xmx${JVM_MEMORY_MAX} -jar /home/${APPLICATION_NAME}/${APPLICATION_NAME}.jar

@@ -1,0 +1,20 @@
+server:
+  servlet:
+    context-path: /geocoding-service
+  port: 9010
+
+spring:
+  profiles: test
+  application:
+    name: geocoding-service
+
+geocoding-service:
+  google:
+    url: localhost:9999/maps/api/geocode/xml?address=ADDRESS&key=KEY
+    api-key: AIzaSyDoWTRMbKx1D5XjIVCdStO8pFf8T_H7pI8
+
+camel:
+  component:
+    servlet:
+      mapping:
+        contextPath: /*

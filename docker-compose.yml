@@ -1,0 +1,10 @@
+version: '3'
+services:
+  geocoding-app:
+    build: geocoding-app/
+    ports:
+      - "9000:9000"
+  geocoding-service:
+    build: geocoding-service/
+    ports:
+      - "9010:9010"
